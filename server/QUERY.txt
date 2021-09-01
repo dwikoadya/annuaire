@@ -1,0 +1,50 @@
+<<<<<< GET ALL DATA CONTACTS FROM FIREBASE IN GraphiQL >>>>>>
+
+query{
+  phones{
+    id,
+    name,
+    phone
+  }
+}
+
+<<<<<< POST DATA CONTACTS TO FIREBASE IN GraphiQL >>>>>>
+
+mutation{
+  addContact(id: "1596455572775", name: "Novrizaldi", phone: "08539762369"){
+  	id,
+    name,
+    phone
+  }
+}
+
+<<<<<< UPDATE DATA CONTACTS FIREBASE IN GraphiQL >>>>>>
+
+mutation{
+  updateContact(id: "1596455572775", name: "Novrizaldi Jaya", phone: "085711892467"){
+  	id,
+    name,
+    phone
+  }
+}
+
+<<<<<< DELETE DATA CONTACTS FROM FIREBASE IN GraphiQL >>>>>>
+
+mutation{
+  deleteContact(id: "134245678"){
+  	id,
+  }
+}
+
+<<<<<< EXECUTE THIS QUERY TO TRY PAGINATION >>>>>>
+
+query{
+      phones(pagination: {offset: 0, limit: 5}) {
+         count
+         items{
+            id
+            name
+            phone
+         }
+      }
+   }
