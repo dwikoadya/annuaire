@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
@@ -11,12 +11,20 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 function App() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Provider store={store}>
         <PhoneBox />
       </Provider>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 5,
+    flexDirection: 'column',
+    backgroundColor: 'grey',
+  },
+})
 
 export default App

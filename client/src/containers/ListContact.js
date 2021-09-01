@@ -23,15 +23,16 @@ class ListContact extends Component {
           id={item.id}
           name={item.name}
           phone={item.phone}
+          avatar={item.avatar}
           sent={item.sent}
         />
       );
     });
-    // console.log(nodes)
 
     return <View>{nodes}</View>;
   }
 }
+
 
 const mapStateToProps = state => ({
   contacts: state.contacts.contacts,

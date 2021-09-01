@@ -5,7 +5,6 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  StatusBar,
   Image,
   Button,
 } from 'react-native';
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
   box: {
     marginHorizontal: 20,
     flex: 1,
-    // backgroundColor: 'grey',
+    backgroundColor: 'blue',
   },
   header: {
     marginVertical: 20,
