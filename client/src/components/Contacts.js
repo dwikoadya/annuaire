@@ -15,7 +15,7 @@ const Contact = props => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 5,
+    padding: 20,
     marginVertical: 8,
     marginHorizontal: 20,
     flexDirection: 'row',
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   name: {
-    fontSize: 20,
+    fontSize: 30,
   },
   phone: {
-    fontSize: 10,
+    fontSize: 20,
   },
   contact: {
     flex: 4,
