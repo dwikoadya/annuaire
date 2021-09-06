@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "539140774742",
+    "firebase_url": "https://bukutelepon-9da20.firebaseio.com",
+    "project_id": "bukutelepon-9da20",
+    "storage_bucket": "bukutelepon-9da20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539140774742:android:b1312bb82987e9e81314f7",
+        "android_client_info": {
+          "package_name": "com.annuaire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539140774742-92om5b89n82r0b9b7njhc8bco08bndni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPIFRcveo8A-d2wmgRm5-9zpUCsXkJ1e8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539140774742-92om5b89n82r0b9b7njhc8bco08bndni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
