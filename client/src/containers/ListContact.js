@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {loadContacts} from '../actions';
 import Contact from './ContactActive';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 
 class ListContact extends Component {
   componentDidMount() {
@@ -10,7 +10,6 @@ class ListContact extends Component {
   }
 
   render() {
-    // console.log(this.props.contacts);
     const nodes = this.props.contacts.map((item, index) => {
       return (
         <Contact
@@ -29,15 +28,18 @@ class ListContact extends Component {
       );
     });
 
-    return <View>{nodes}</View>;
+    return (
+      <ScrollView>
+        <View>{nodes}</View>
+      </ScrollView>
+    );
   }
 }
-
 
 const mapStateToProps = state => ({
   contacts: state.contacts.contacts,
   page: state.contacts.page,
-  pages: state.contacts.pages
+  pages: state.contacts.pages,
 });
 
 const mapDispatchToProps = dispatch => ({
