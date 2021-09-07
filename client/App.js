@@ -1,30 +1,22 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
+import {NavigationContainer} from '@react-navigation/native';
 
 import rootReducer from './src/reducers/index';
-import PhoneBox from './src/components/PhoneBox';
+import Router from './src/router';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 function App() {
   return (
-    <SafeAreaView style={styles.container}>
+    <NavigationContainer>
       <Provider store={store}>
-        <PhoneBox />
+        <Router />
       </Provider>
-    </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 5,
-    flexDirection: 'column',
-    backgroundColor: 'grey',
-  },
-})
-
-export default App
+export default App;
