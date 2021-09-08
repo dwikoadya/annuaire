@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {loadContacts} from '../actions';
-import Contact from './ContactActive';
 import {View, ScrollView} from 'react-native';
 
+import {loadContacts} from '../actions';
+import Contact from '../containers/ContactActive';
 class ListContact extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
     this.props.loadContacts();
   }
@@ -24,6 +28,7 @@ class ListContact extends Component {
           phone={item.phone}
           avatar={item.avatar}
           sent={item.sent}
+          navigation={this.props.navigation}
         />
       );
     });
