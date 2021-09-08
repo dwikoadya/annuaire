@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
   Text,
   View,
@@ -7,21 +8,25 @@ import {
   Platform,
   Alert,
   Image,
-  SafeAreaView,
   PermissionsAndroid,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 
-import Header from '../components/Header';
 import ModalScene from '../components/modal/ModalScene';
 import ModalContent from '../components/modal/ModalContent';
+import {postContact} from '../actions';
+import ButtonCancel from '../components/button/ButtonCancel';
+import ButtonSave from '../components/button/ButtonSave';
 
-export default class AddContact extends Component {
+class AddContact extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      phone: '',
       image: null,
       uploading: false,
       transferred: 0,
@@ -35,7 +40,7 @@ export default class AddContact extends Component {
       this.handleRequestExternalWritePermission.bind(this);
     this.handleLaunchCamera = this.handleLaunchCamera.bind(this);
     this.handleSelectImage = this.handleSelectImage.bind(this);
-    this.handleUploadImage = this.handleUploadImage.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleModal = this.handleToggleModal.bind(this);
   }
 
@@ -128,7 +133,7 @@ export default class AddContact extends Component {
     });
   }
 
-  async handleUploadImage() {
+  async handleSubmit() {
     const {uri} = this.state.image;
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
@@ -152,12 +157,22 @@ export default class AddContact extends Component {
     } catch (error) {
       console.log(error);
     }
+    if (this.state.name && this.state.phone && this.state.avatar) {
+      this.props.postContact(
+        this.state.name,
+        this.state.phone,
+        this.state.avatar,
+      );
+    }
+
+    Alert.alert('Contact Saved');
 
     this.setState({uploading: false});
-
-    Alert.alert('Photo uploaded', 'Your Photo has been uploaded to firebase');
-
     this.setState({image: null});
+    this.setState({name: ''});
+    this.setState({phone: ''});
+
+    this.props.navigation.navigate('Home');
   }
 
   handleToggleModal() {
@@ -166,8 +181,7 @@ export default class AddContact extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Header label="Add Contact" />
+      <KeyboardAvoidingView behavior={'height'} style={styles.container}>
         <View style={styles.imgPrev}>
           <TouchableOpacity
             style={styles.imageFB}
@@ -199,25 +213,36 @@ export default class AddContact extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.input}>
-          <TextInput style={styles.inputContext} placeholder="Name" />
-          <TextInput style={styles.inputContext} placeholder="Phone" />
+          <TextInput
+            style={styles.inputContext}
+            placeholder="Name"
+            value={this.state.name}
+            onChangeText={name => {
+              this.setState({name});
+            }}
+          />
+          <TextInput
+            style={styles.inputContext}
+            placeholder="Phone"
+            keyboardType="numeric"
+            value={this.state.phone}
+            onChangeText={phone => {
+              this.setState({phone});
+            }}
+          />
         </View>
         <View style={styles.imageContainer}>
-          <TouchableOpacity style={styles.uploadButton}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.uploadButton}>
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity>
+          <ButtonSave onPress={this.handle} />
+          <ButtonCancel navigation={this.props.navigation} />
         </View>
-      </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: 'gainsboro',
   },
   uploadButton: {
@@ -226,16 +251,11 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginVertical: 20,
     marginHorizontal: 20,
-    // backgroundColor: 'white'
-    // borderWidth: 1,
   },
   buttonText: {
-    // color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
-    // backgroundColor: 'red'
   },
   imageContainer: {
     alignItems: 'center',
@@ -243,7 +263,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 30,
     borderTopWidth: 1,
-    // backgroundColor: 'blue'
+    // backgroundColor: 'pink',
   },
   imageFirebase: {
     width: 100,
@@ -262,7 +282,6 @@ const styles = StyleSheet.create({
   input: {
     marginVertical: 30,
     marginHorizontal: 20,
-    // backgroundColor: 'red',
     flex: 1,
     flexDirection: 'column',
   },
@@ -270,13 +289,17 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 12,
     borderBottomWidth: 1,
-    // padding: 10,
     justifyContent: 'center',
-    // backgroundColor: 'yellow'
   },
   imgPrev: {
-    // backgroundColor: 'red',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
+
+const mapDispatchToProps = dispatch => ({
+  postContact: (name, phone, avatar) =>
+    dispatch(postContact(name, phone, avatar)),
+});
+
+export default connect(null, mapDispatchToProps)(AddContact);
