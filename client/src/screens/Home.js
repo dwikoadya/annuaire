@@ -1,15 +1,15 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, TouchableOpacity, Image, Button} from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
 import ListContact from '../containers/ListContact';
 import Header from '../components/Header';
-import ButtonAdd from '../components/ButtonAdd';
+import ButtonAdd from '../components/button/ButtonAdd';
 
-function PhoneBox(props) {
+function Home(props) {
   return (
     <SafeAreaView style={styles.container}>
       <Header label="Contacts" />
-      <ListContact />
+      <ListContact navigation={props.navigation} />
       <ButtonAdd navigation={props.navigation} />
     </SafeAreaView>
   );
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PhoneBox;
+export default Home;
