@@ -1,14 +1,27 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 const Contact = props => {
   return (
-    <View style={styles.item}>
-      <Image style={styles.avatar} source={{uri: props.avatar}}></Image>
-      <View style={styles.contact}>
-        <Text style={styles.name}>{props.name}</Text>
-        <Text style={styles.phone}>{props.phone}</Text>
-      </View>
+    <View>
+      {props.sent ? (
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate('Details', {
+              ...props
+            }); 
+          }}>
+          <View style={styles.item}>
+            <Image style={styles.avatar} source={{uri: props.avatar}}></Image>
+            <View style={styles.contact}>
+              <Text style={styles.name}>{props.name}</Text>
+              <Text style={styles.phone}>{props.phone}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };
