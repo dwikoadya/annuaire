@@ -1,22 +1,21 @@
-import ApolloClient from "apollo-boost";
+import ApolloClient from 'apollo-boost';
 
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
-
-const API_URL = "http://192.168.1.8:3001/graphql/";
+const API_URL = 'http://192.168.1.8:3001/graphql/';
 const client = new ApolloClient({
   uri: API_URL,
 });
 
 // LOAD CONTACTS START
 
-export const loadContactsSuccess = (phones) => ({
-  type: "LOAD_CONTACT_SUCCESS",
+export const loadContactsSuccess = phones => ({
+  type: 'LOAD_CONTACT_SUCCESS',
   phones,
 });
 
 export const loadContactsFailure = () => ({
-  type: "LOAD_CONTACT_FAILURE",
+  type: 'LOAD_CONTACT_FAILURE',
 });
 
 export const loadContacts = (offset = 0, limit = 5) => {
@@ -32,7 +31,7 @@ export const loadContacts = (offset = 0, limit = 5) => {
          }
       }
    }`;
-  return (dispatch) => {
+  return dispatch => {
     return client
       .query({
         query: phonesQuery,
@@ -50,18 +49,18 @@ export const loadContacts = (offset = 0, limit = 5) => {
 //LOAD CONTACTS END
 
 // POST CONTACT START
-const postContactSuccess = (contact) => ({
-  type: "POST_CONTACT_SUCCESS",
+const postContactSuccess = contact => ({
+  type: 'POST_CONTACT_SUCCESS',
   contact,
 });
 
-const postContactFailure = (id) => ({
-  type: "POST_CONTACT_FAILURE",
+const postContactFailure = id => ({
+  type: 'POST_CONTACT_FAILURE',
   id,
 });
 
 const postContactRedux = (id, name, phone, avatar) => ({
-  type: "POST_CONTACT",
+  type: 'POST_CONTACT',
   id,
   name,
   phone,
@@ -86,7 +85,7 @@ export const postContact = (name, phone, avatar) => {
     }
   `;
 
-  return (dispatch) => {
+  return dispatch => {
     dispatch(postContactRedux(id, name, phone, avatar));
     return client
       .mutate({
@@ -102,7 +101,7 @@ export const postContact = (name, phone, avatar) => {
         dispatch(postContactSuccess(response.data.addContact));
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         dispatch(postContactFailure(id));
       });
   };
@@ -112,28 +111,28 @@ export const postContact = (name, phone, avatar) => {
 
 //START EDIT CONTACT DATA
 
-export const onUpdateContact = (id) => ({
-  type: "ON_UPDATE_CONTACT",
+export const onUpdateContact = id => ({
+  type: 'ON_UPDATE_CONTACT',
   id,
 });
 
-export const offUpdateContact = (id) => ({
-  type: "OFF_UPDATE_CONTACT",
+export const offUpdateContact = id => ({
+  type: 'OFF_UPDATE_CONTACT',
   id,
 });
 
-const updateContactSuccess = (contact) => ({
-  type: "UPDATE_CONTACT_SUCCESS",
+const updateContactSuccess = contact => ({
+  type: 'UPDATE_CONTACT_SUCCESS',
   contact,
 });
 
-const updateContactFailure = (id) => ({
-  type: "UPDATE_CONTACT_FAILURE",
+const updateContactFailure = id => ({
+  type: 'UPDATE_CONTACT_FAILURE',
   id,
 });
 
 const updateContactRedux = (id, name, phone, avatar) => ({
-  type: "UPDATE_CONTACT",
+  type: 'UPDATE_CONTACT',
   id,
   name,
   phone,
@@ -141,10 +140,15 @@ const updateContactRedux = (id, name, phone, avatar) => ({
 });
 
 export const updateContact = (id, name, phone, avatar) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(updateContactRedux(id, name, phone, avatar));
     const updateQuery = gql`
-      mutation updateContact($id: ID!, $name: String!, $phone: String!, $avatar: String!) {
+      mutation updateContact(
+        $id: ID!
+        $name: String!
+        $phone: String!
+        $avatar: String!
+      ) {
         updateContact(id: $id, name: $name, phone: $phone, avatar: $avatar) {
           id
           name
@@ -160,14 +164,14 @@ export const updateContact = (id, name, phone, avatar) => {
           id,
           name,
           phone,
-          avatar
+          avatar,
         },
       })
       .then(function (response) {
         dispatch(updateContactSuccess(response.data.updateContact));
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         dispatch(updateContactFailure(id));
       });
   };
